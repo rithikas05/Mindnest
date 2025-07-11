@@ -1,0 +1,14 @@
+services:
+  - type: web
+    name: mindnest-backend
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        value: mongodb+srv://rithikasenthil5:RithuHary%405@cluster0.wvujim1.mongodb.net/notesApp?retryWrites=true&w=majority&appName=Cluster0
+      - key: JWT_SECRET
+        value: 1bC4jK8sGpM9zR2vQe7nT5aFwXsD3uLo
+      - key: CLIENT_URL
+        value: https://mindnest-frontend.vercel.app
