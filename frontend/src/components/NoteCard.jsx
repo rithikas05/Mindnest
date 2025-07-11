@@ -2,15 +2,7 @@
 import React, { useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import {
-  Eye,
-  Edit2,
-  Trash2,
-  Tag,
-  Clock,
-  Bookmark,
-  BookOpen,
-  Archive,
-  RotateCw,
+  Eye, Edit2, Trash2, Tag, Clock, Bookmark, BookOpen, Archive, RotateCw,
 } from "react-feather";
 import toast from "react-hot-toast";
 import ConfirmationModal from "./ConfirmationModal";
@@ -69,7 +61,7 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
       }
 
       setShowConfirm(false);
-      if (typeof onChange === "function") onChange(); // refresh notes list
+      if (typeof onChange === "function") onChange();  // <-- refresh notes list
     } catch (err) {
       console.error(err);
       toast.error("Action failed. Try again.");
@@ -81,9 +73,9 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
     try {
       const token = localStorage.getItem("userToken");
       await togglePin(slug, token);
-      toast.success(`Note ${localPinned ? "unpinned" : "pinned"}`);
       setLocalPinned(!localPinned);
-      if (typeof onChange === "function") onChange(); // refresh notes list
+      toast.success(`Note ${localPinned ? "unpinned" : "pinned"}`);
+      if (typeof onChange === "function") onChange();  // refresh list on pin toggle
     } catch {
       toast.error("Failed to pin/unpin.");
     }
@@ -93,9 +85,9 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
     try {
       const token = localStorage.getItem("userToken");
       await toggleArchive(slug, token);
-      toast.success(`Note ${localArchived ? "unarchived" : "archived"}`);
       setLocalArchived(!localArchived);
-      if (typeof onChange === "function") onChange(); // refresh notes list
+      toast.success(`Note ${localArchived ? "unarchived" : "archived"}`);
+      if (typeof onChange === "function") onChange();  // refresh list on archive toggle
     } catch {
       toast.error("Failed to archive/unarchive.");
     }
