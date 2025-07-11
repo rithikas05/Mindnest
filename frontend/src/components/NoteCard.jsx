@@ -2,7 +2,15 @@
 import React, { useState } from "react";
 import { useNavigate, Link, useLocation } from "react-router-dom";
 import {
-  Eye, Edit2, Trash2, Tag, Clock, Bookmark, BookOpen, Archive, RotateCw,
+  Eye,
+  Edit2,
+  Trash2,
+  Tag,
+  Clock,
+  Bookmark,
+  BookOpen,
+  Archive,
+  RotateCw,
 } from "react-feather";
 import toast from "react-hot-toast";
 import ConfirmationModal from "./ConfirmationModal";
@@ -14,7 +22,7 @@ import {
   toggleArchive,
 } from "../api/noteAPI";
 
-export default function NoteCard({ note, showPinArchive = true, showDelete = true }) {
+export default function NoteCard({ note, showPinArchive = true, showDelete = true, onChange }) {
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname;
@@ -61,7 +69,7 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
       }
 
       setShowConfirm(false);
-      setTimeout(() => window.location.reload(), 600);
+      if (typeof onChange === "function") onChange(); // refresh notes list
     } catch (err) {
       console.error(err);
       toast.error("Action failed. Try again.");
@@ -73,8 +81,9 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
     try {
       const token = localStorage.getItem("userToken");
       await togglePin(slug, token);
-      setLocalPinned(!localPinned);
       toast.success(`Note ${localPinned ? "unpinned" : "pinned"}`);
+      setLocalPinned(!localPinned);
+      if (typeof onChange === "function") onChange(); // refresh notes list
     } catch {
       toast.error("Failed to pin/unpin.");
     }
@@ -84,8 +93,9 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
     try {
       const token = localStorage.getItem("userToken");
       await toggleArchive(slug, token);
-      setLocalArchived(!localArchived);
       toast.success(`Note ${localArchived ? "unarchived" : "archived"}`);
+      setLocalArchived(!localArchived);
+      if (typeof onChange === "function") onChange(); // refresh notes list
     } catch {
       toast.error("Failed to archive/unarchive.");
     }
@@ -95,7 +105,7 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
     <div
       className={`relative bg-white dark:bg-zinc-800 rounded-xl border-l-4 shadow-sm p-5 hover:shadow-md transition-all border-${color}-500 dark:border-${color}-400`}
     >
-      {/*  Pinned icon – hide on /home and /dashboard */}
+      {/* Pinned icon – hide on /home and /dashboard */}
       {localPinned && !isTrashPage && !isStaticPage && (
         <Bookmark
           size={18}
@@ -131,7 +141,7 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
         )}
       </div>
 
-      {/*  Action Buttons */}
+      {/* Action Buttons */}
       <div className="flex justify-end flex-wrap gap-4 mt-3">
         {/* View button always visible */}
         <button
