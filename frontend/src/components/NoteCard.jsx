@@ -61,7 +61,11 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
       }
 
       setShowConfirm(false);
-      if (typeof onChange === "function") onChange();  // <-- refresh notes list
+
+      // Notify parent to reload notes after action completes
+      if (typeof onChange === "function") {
+        onChange();
+      }
     } catch (err) {
       console.error(err);
       toast.error("Action failed. Try again.");
@@ -75,7 +79,9 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
       await togglePin(slug, token);
       setLocalPinned(!localPinned);
       toast.success(`Note ${localPinned ? "unpinned" : "pinned"}`);
-      if (typeof onChange === "function") onChange();  // refresh list on pin toggle
+      if (typeof onChange === "function") {
+        onChange();
+      }
     } catch {
       toast.error("Failed to pin/unpin.");
     }
@@ -87,7 +93,9 @@ export default function NoteCard({ note, showPinArchive = true, showDelete = tru
       await toggleArchive(slug, token);
       setLocalArchived(!localArchived);
       toast.success(`Note ${localArchived ? "unarchived" : "archived"}`);
-      if (typeof onChange === "function") onChange();  // refresh list on archive toggle
+      if (typeof onChange === "function") {
+        onChange();
+      }
     } catch {
       toast.error("Failed to archive/unarchive.");
     }
