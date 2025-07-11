@@ -7,8 +7,8 @@ Mindnest is a beautifully designed, full-stack notes application built with the 
 Frontend: [https://mindnest-frontend-ten.vercel.app](https://mindnest-frontend-ten.vercel.app)
 
 Demo Login:  
-**Email**: demo@mindnest.app  
-**Password**: 12345678
+**Email**: demo@mindnest.com  
+**Password**: demo123
 
 ## Features
 
@@ -91,7 +91,9 @@ VITE_API_BASE_URL=https://mindnest-backend-y28m.onrender.com/api
 
 ## Run Locally
 
+```bash
 ### Backend
+
 
 cd backend
 npm install
